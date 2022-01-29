@@ -258,15 +258,15 @@ void GetEvent(SDL_Event *event)
 	unsigned int xlkey;
 
 	switch(event->type) {
-	case SDL_MOUSEBUTTONDOWN:
-		if (event->button.button == 4) {
+	case SDL_MOUSEWHEEL:
+		if (event->wheel.y > 0) {
 			keyq[keyq_head].key = K_MWHEELUP;
 			keyq[keyq_head].down = true;
 			keyq_head = (keyq_head + 1) & 63;
 			keyq[keyq_head].key = K_MWHEELUP;
 			keyq[keyq_head].down = false;
 			keyq_head = (keyq_head + 1) & 63;
-		} else if (event->button.button == 5) {
+		} else if (event->wheel.y < 0) {
 			keyq[keyq_head].key = K_MWHEELDOWN;
 			keyq[keyq_head].down = true;
 			keyq_head = (keyq_head + 1) & 63;
@@ -275,6 +275,8 @@ void GetEvent(SDL_Event *event)
 			keyq_head = (keyq_head + 1) & 63;
 		}
 		break;
+
+	case SDL_MOUSEBUTTONDOWN:
 	case SDL_MOUSEBUTTONUP:
 		break;
 	case SDL_KEYDOWN:
