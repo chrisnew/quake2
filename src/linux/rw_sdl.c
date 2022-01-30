@@ -159,7 +159,7 @@ void TragicDeath(int signal_num)
 }
 #endif
 
-int XLateKey(unsigned int keysym, unsigned int scancode)
+static int XLateKey(unsigned int keysym, unsigned int scancode)
 {
 	int key;
 
@@ -237,6 +237,12 @@ int XLateKey(unsigned int keysym, unsigned int scancode)
 	case SDLK_KP_MINUS:		key = K_KP_MINUS; break;
 	case SDLK_KP_DIVIDE:	key = K_KP_SLASH; break;
 
+	case SDL_SCANCODE_TO_KEYCODE(0): // special characters
+		switch(scancode) {
+			case SDL_SCANCODE_GRAVE:	key = SDLK_BACKQUOTE; break;
+		}
+		break;
+
 	default: /* assuming that the other sdl keys are mapped to ascii */
 		if (keysym < 128)
 			key = keysym;
@@ -252,7 +258,7 @@ int XLateKey(unsigned int keysym, unsigned int scancode)
 
 static unsigned char KeyStates[MAX_KEYS];
 
-void GetEvent(SDL_Event *event)
+static void GetEvent(SDL_Event *event)
 {
 	unsigned int key;
 	unsigned int xlkey;
